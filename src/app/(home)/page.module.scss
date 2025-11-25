@@ -1,0 +1,57 @@
+.chat{
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    background: rgba(0, 0, 0, 0.76);
+    width: 300px;
+    height: 550px;
+    .chat_header{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 15px;
+        span{
+            font-size: 20px;
+            color: white;
+        }
+        input{
+            padding: 4px;
+
+            border-radius: 5px;
+            border: none;
+        }
+    }
+    .users{
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        width: 300px;
+        height: auto;
+        padding: 1px;
+        .card{
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            background: none;
+            width: 100%;
+            padding: 10px;
+            gap: 10px;
+            &:hover{
+                background:rgba(128, 128, 128, 0.333);
+            }
+            h4{
+                color: white;
+            }
+
+            img{
+                border-radius: 50%;
+                width: 45px;
+                height: 45px;
+            }
+        }
+        
+
+    }
+}

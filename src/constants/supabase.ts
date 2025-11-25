@@ -1,0 +1,6 @@
+export const SUPA_URL = "https://kzauloudtlqypcfmantz.supabase.co";
+export const SUPA_KEY =
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt6YXVsb3VkdGxxeXBjZm1hbnR6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMyODIzNTEsImV4cCI6MjA3ODg1ODM1MX0.oBE8KEsihqVSMAgiEzOyjJ7ON6v7kDv_OsoRvtmyTpI";
+
+
+ 
