@@ -15,7 +15,7 @@ interface IMessages {
 }
 
 const Chat = () => {
-  const [channel, setChannel] = useState<null | RealtimeChannel>();
+  // const [channel, setChannel] = useState<null | RealtimeChannel>();
   const [messages, setMessages] = useState<IMessages[]>([]);
   const [value, setValue] = useState("");
   const SUPA_CLIENT = createClient(SUPA_URL, SUPA_KEY);
@@ -23,8 +23,40 @@ const Chat = () => {
 
   const { room } = useParams();
 
+  // useEffect(() => {
+  //   const channel = SUPA_CLIENT.channel("chat");
+  //   channel.on(
+  //     "postgres_changes",
+  //     {
+  //       event: "INSERT",
+  //       schema: "public",
+  //       filter: `room:${room}`,
+  //       table: "chat_14",
+  //     },
+  //     (payload) => {
+  //       console.log(payload);
+
+  //       setMessages((prev) => [...prev, payload.new]);
+  //     }
+  //   );
+  //   const initChat = async () => {
+  //     const res = await SUPA_CLIENT.from("chat_14")
+  //       .select("*")
+  //       .eq("room_id", room)
+  //       .order("created_at", { ascending: true });
+  //     if (res.data) {
+  //       setMessages(res.data);
+  //     }
+  //   };
+  //   initChat();
+
+  //   channel.subscribe();
+  //   return () => SUPA_CLIENT.removeChannel(channel);
+  // }, [room, messages]);
+
   useEffect(() => {
     const channel = SUPA_CLIENT.channel("chat");
+
     channel.on(
       "postgres_changes",
       {
@@ -35,24 +67,31 @@ const Chat = () => {
       },
       (payload) => {
         console.log(payload);
-
-        setMessages((prev) => [...prev, payload.new]);
+        setMessages((prev) => [...prev, payload.new as IMessages]);
       }
     );
+
+    // Инициализация чата
     const initChat = async () => {
       const res = await SUPA_CLIENT.from("chat_14")
         .select("*")
         .eq("room_id", room)
         .order("created_at", { ascending: true });
+
       if (res.data) {
         setMessages(res.data);
       }
     };
     initChat();
 
+    // Подписка на канал (async, но cleanup синхронный)
     channel.subscribe();
-    return () => SUPA_CLIENT.removeChannel(channel);
-  }, [room, messages]);
+
+    return () => {
+      // Синхронный cleanup
+      SUPA_CLIENT.removeChannel(channel);
+    };
+  }, [room]); // Убираем messages из зависимостей
 
   const sendMessage = async () => {
     await SUPA_CLIENT.from("chat_14").insert({
